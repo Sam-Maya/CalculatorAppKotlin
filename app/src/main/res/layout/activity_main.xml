@@ -196,7 +196,7 @@
         android:layout_weight="1"
         android:layout_margin="4dp"
         android:text="="
-        android:onClick="onDigit"/>
+        android:onClick="calculate"/>
 
 
 
