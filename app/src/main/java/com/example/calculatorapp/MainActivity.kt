@@ -8,8 +8,8 @@ import android.widget.TextView
 import android.widget.Toast
 
 class MainActivity : AppCompatActivity() {
-
     private var display : TextView? = null
+    //variables that are used to keep track of last input
     private var lastNum = false
     private var lastDecimal = false
     private var hasOperator = false
@@ -23,12 +23,12 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-
+    //called when a number is clicked
     fun onDigit(view: View){
         display?.append((view as Button).text)
         lastNum = true
     }
-
+    //called when clr is clicked
     fun onClr(view : View){
         display?.text = null
         lastNum = false
@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         hasOperator = false
         isNeg = false
     }
-
+    //called when decimal is clicked
     fun onDecimal(view : View){
         if (!lastDecimal) {
             display?.append((view as Button).text)
@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
             lastNum = false
         }
     }
-
+    //called when + - ? * is clicked
     fun onOperator(view : View){
         if (!lastNum && !lastDecimal && (view as Button).text == "-" && !isNeg){
             isNeg = true
@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
+    //called when = is clicked
     fun calculate(view : View){
         if(hasOperator && lastNum){
             val str : CharSequence = display?.text as CharSequence
@@ -70,7 +70,7 @@ class MainActivity : AppCompatActivity() {
             var currentStr = ""
             var op : Char? = null
             var i = 0
-
+            //populates nums with the first and second numbers in the operation and keeps track of the operator
             while(i < str.length){
                 if (str[i] in operatorsList){
                     if (str[i] == '-' && currentStr == "") {
@@ -88,7 +88,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             nums.add(currentStr)
-
+            //where math happens
             var ans = nums[0].toDouble()
             when (op){
                 '*' -> ans *= nums[1].toDouble()
@@ -98,6 +98,7 @@ class MainActivity : AppCompatActivity() {
                 '+' -> ans += nums[1].toDouble()
                 '-' -> ans -= nums[1].toDouble()
             }
+            //removes .0 if its a whole number
             if(ans % 1 == 0.0){
                 display?.text = ans.toInt().toString()
             }else display?.text = ans.toString()
